@@ -1,0 +1,7 @@
+{
+  "name": "TimeShop",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
