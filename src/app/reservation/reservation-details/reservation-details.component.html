@@ -1,0 +1,47 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title
+      >{{ selectedSlotStart | date: 'longDate' }}, {{ selectedSlotStart | date: 'shortTime' }} -
+      {{ selectedSlotEnd | date: 'shortTime' }}</ion-title
+    >
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="submit()" [formGroup]="reservationForm">
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Confirm Reservation</ion-label>
+      </ion-list-header>
+      <ion-item lines="none">
+        <ion-note>{{ shop.name }}<br />{{ shop.address }}</ion-note>
+      </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="person-circle-outline"></ion-icon>
+        <ion-label position="stacked">Name</ion-label>
+        <ion-input placeholder="Name" type="text" formControlName="name" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="mail-outline"></ion-icon>
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input placeholder="Email" type="email" formControlName="email" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="call-outline"></ion-icon>
+        <ion-label position="stacked">Phone</ion-label>
+        <ion-input placeholder="Phone" type="tel" formControlName="phone" required></ion-input>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button [disabled]="!reservationForm.valid" color="secondary" (click)="submit()">Reserve</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

@@ -1,5 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { Map, latLng, tileLayer, Layer, marker, icon } from 'leaflet';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { LeafletMouseEvent, Map, marker, tileLayer } from 'leaflet';
+
+import { Router } from '@angular/router';
+import { Shop } from '../interfaces/shop';
+import { ShopService } from '../services/shop.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -8,60 +13,49 @@ import { Map, latLng, tileLayer, Layer, marker, icon } from 'leaflet';
   styleUrls: ['shops.page.scss'],
 })
 export class ShopsPage {
-  constructor(private readonly cdr: ChangeDetectorRef) {}
-  map: Map;
-  shopsArray: any[] = [
-    {
-      id: 1,
-      Name: 'Shop 1',
-      latlng: [47.6, 19],
-    },
-    {
-      id: 2,
-      Name: 'Shop 2',
-      latlng: [47.7, 19],
-    },
-    {
-      id: 3,
-      Name: 'Shop 3',
-      latlng: [47.6, 19.1],
-    },
-  ];
+  @ViewChild('leafletMap', { static: true }) leafletMap: ElementRef;
+  private readonly shops: Array<Shop>;
+  private map: Map;
+
+  constructor(private readonly cdr: ChangeDetectorRef, private readonly shopService: ShopService, private readonly router: Router) {
+    this.shops = this.shopService.getShops();
+  }
 
   ionViewDidEnter() {
-    this.leafletMap();
+    this.renderMap();
   }
 
-  leafletMap() {
-    // In setView add latLng and zoom
-    this.map = new Map('mapId').setView([47.4979, 19.0402], 10);
-    tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://chappuishalder.com">Chappuis Halder Lab</a> contributors',
-    }).addTo(this.map);
-
-    //marker([47.4, 19]).addTo(this.map).bindPopup('Shop 1').openPopup();
-
-    marker([47.6, 19]).on('click', this.onMarkerClick).addTo(this.map).bindPopup('Shop 2');
-
-    marker([47.6, 19.1]).on('click', this.onMarkerClick).addTo(this.map).bindPopup('Shop 3');
-
-    /*     var myIcon = icon({
-      iconUrl: 'leaflet/leaf-green.png',
-      shadowUrl: 'leaflet/leaf-shadow.png',
-
-      iconSize: [38, 95], // size of the icon
-      shadowSize: [50, 64], // size of the shadow
-      iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-      shadowAnchor: [4, 62], // the same for the shadow
-      popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+  /** Render Leaflet map */
+  renderMap() {
+    this.map = new Map(this.leafletMap.nativeElement, { attributionControl: false, zoomControl: false });
+    this.map.setView([47.4979, 19.0402], 10);
+    const tile = tileLayer(environment.mapTileUrl, {
+      minZoom: 10,
+      minNativeZoom: 10,
+      updateWhenZooming: true,
     });
-     marker([47.4, 19], { icon: myIcon }).addTo(this.map); */
+    tile.addTo(this.map);
+    this.shops.forEach((shop) => {
+      const m = marker([shop.latitude, shop.longitude]);
+      m.on('click', (event: LeafletMouseEvent) => {
+        this.onMarkerClick(event);
+      });
+      m.bindTooltip(shop.name, { permanent: true });
+      m.addTo(this.map);
+    });
   }
-  onMarkerClick(e) {
-    console.log(e);
+
+  onMarkerClick($event: LeafletMouseEvent) {
+    const shop = this.shopService.findShopByLocation($event.latlng.lat, $event.latlng.lng);
+    if (shop) {
+      this.router.navigate(['/timeshop/shop/reserve', shop.id]);
+      this.cdr.detectChanges();
+    }
   }
-  onSelectChange(e) {
-    console.log(e);
+
+  onSelectedShop($event) {
+    this.router.navigate(['/timeshop/shop/reserve', +$event.detail.value]);
+    this.cdr.detectChanges();
   }
 
   /** Remove map when we have multiple map object */

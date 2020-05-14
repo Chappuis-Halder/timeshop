@@ -4,6 +4,7 @@
   "author": "Chappuis Halder & Co. Lab",
   "homepage": "https://chappuishalder.com/",
   "scripts": {
+    "postinstall": "ngcc",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
@@ -14,6 +15,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^9.1.7",
     "@angular/common": "~9.1.6",
     "@angular/core": "~9.1.6",
     "@angular/forms": "~9.1.6",
@@ -27,6 +29,9 @@
     "@ionic/angular": "^5.0.0",
     "@types/leaflet": "^1.5.12",
     "leaflet": "^1.6.0",
+    "angular-calendar": "^0.28.14",
+    "date-fns": "^2.13.0",
+    "lodash": "^4.17.15",
     "rxjs": "~6.5.1",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

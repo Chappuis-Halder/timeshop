@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  mapTileUrl: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
 };
 
 /*

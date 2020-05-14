@@ -1,7 +1,17 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Reservation</ion-title>
+    <ion-title *ngIf="shop">Reserve time for {{ shop.name }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content> </ion-content>
+<ion-content *ngIf="shop">
+  <mwl-calendar-week-view
+    [events]="events"
+    [daysInWeek]="7"
+    [dayStartHour]="dayStartHour"
+    [dayEndHour]="dayEndHour"
+    [refresh]="refreshCalendar"
+    [viewDate]="viewDate"
+    (hourSegmentClicked)="appointmentSelected($event)"
+  ></mwl-calendar-week-view>
+</ion-content>

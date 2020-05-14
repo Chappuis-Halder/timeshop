@@ -16,18 +16,10 @@ const routes: Routes = [
             loadChildren: () => import('../shops/shops.module').then((m) => m.ShopsPageModule),
           },
           {
-            path: 'reserve',
+            path: 'reserve/:id',
             loadChildren: () => import('../reservation/reservation.module').then((m) => m.ReservationPageModule),
           },
         ],
-      },
-      {
-        path: 'tab2',
-        loadChildren: () => import('../tab2/tab2.module').then((m) => m.Tab2PageModule),
-      },
-      {
-        path: 'tab3',
-        loadChildren: () => import('../tab3/tab3.module').then((m) => m.Tab3PageModule),
       },
       {
         path: '',
@@ -41,6 +33,7 @@ const routes: Routes = [
     redirectTo: '/timeshop/shop',
     pathMatch: 'full',
   },
+  { path: '**', redirectTo: '/timeshop/shop' },
 ];
 
 @NgModule({
