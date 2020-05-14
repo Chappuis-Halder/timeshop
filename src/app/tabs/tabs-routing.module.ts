@@ -5,12 +5,21 @@ import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
   {
-    path: 'tabs',
+    path: 'timeshop',
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
-        loadChildren: () => import('../tab1/tab1.module').then((m) => m.Tab1PageModule),
+        path: 'shop',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../shops/shops.module').then((m) => m.ShopsPageModule),
+          },
+          {
+            path: 'reserve',
+            loadChildren: () => import('../reservation/reservation.module').then((m) => m.ReservationPageModule),
+          },
+        ],
       },
       {
         path: 'tab2',
@@ -22,14 +31,14 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/timeshop/shop',
         pathMatch: 'full',
       },
     ],
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/timeshop/shop',
     pathMatch: 'full',
   },
 ];
