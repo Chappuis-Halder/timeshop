@@ -1,0 +1,59 @@
+{
+  "parser": "typescript",
+  "trailingComma": "es5",
+  "printWidth": 140,
+  "singleQuote": true,
+  "semi": true,
+  "tabWidth": 2,
+  "useTabs": false,
+  "bracketSpacing": true,
+  "htmlWhitespaceSensitivity": "css",
+  "jsxBracketSameLine": true,
+  "endOfLine": "crlf",
+  "overrides": [
+    {
+      "files": "*.md",
+      "options": {
+        "parser": "markdown"
+      }
+    },
+    {
+      "files": [".prettierignore", ".prettierrc"],
+      "options": {
+        "parser": "json"
+      }
+    },
+    {
+      "files": "*.html",
+      "options": {
+        "jsxBracketSameLine": true,
+        "printWidth": 140,
+        "parser": "angular"
+      }
+    },
+    {
+      "files": "*.css",
+      "options": {
+        "parser": "css"
+      }
+    },
+    {
+      "files": "*.scss",
+      "options": {
+        "parser": "css"
+      }
+    },
+    {
+      "files": "*.less",
+      "options": {
+        "parser": "css"
+      }
+    },
+    {
+      "files": "*.json",
+      "options": {
+        "parser": "json"
+      }
+    }
+  ]
+}
