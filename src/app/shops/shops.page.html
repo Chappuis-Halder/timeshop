@@ -12,4 +12,16 @@
       <ion-title size="large">Shops</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-list>
+    <ion-item>
+      <ion-label>Available shops</ion-label>
+      <ion-select placeholder="Please select.." (ionChange)="onSelectChange($event)">
+        <ion-select-option *ngFor="let data of this.shopsArray" value="{{ data.id }}">{{ data.Name }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-button expand="full">Book a slot</ion-button>
+    </ion-item>
+  </ion-list>
+  <div id="mapId" style="width: 100%; height: 100%;"></div>
 </ion-content>
