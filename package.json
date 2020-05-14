@@ -1,8 +1,8 @@
 {
   "name": "timeshop",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "Chappuis Halder & Co. Lab",
+  "homepage": "https://chappuishalder.com/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
