@@ -3,6 +3,7 @@ import * as L from 'leaflet';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 
 import { LoadingController } from '@ionic/angular';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import { Router } from '@angular/router';
 import { Shop } from '../interfaces/shop';
 import { ShopService } from '../services/shop.service';
@@ -16,6 +17,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ShopsPage {
   @ViewChild('leafletMap', { static: true }) leafletMap: ElementRef;
+  @ViewChild(NgSelectComponent) ngSelectComponent: NgSelectComponent;
   public selectedShop: Shop;
 
   public shops: Array<Shop>;
@@ -32,6 +34,7 @@ export class ShopsPage {
 
   ionViewDidEnter() {
     this.renderMap();
+    this.ngSelectComponent.handleClearClick();
   }
 
   /** Render Leaflet map */
@@ -82,7 +85,9 @@ export class ShopsPage {
   }
 
   onSelectedShop($event: Shop) {
-    this.reserveShop($event);
+    if ($event) {
+      this.reserveShop($event);
+    }
   }
 
   /** Remove map when we have multiple map object */
