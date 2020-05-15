@@ -5,7 +5,7 @@ import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
   {
-    path: 'timeshop',
+    path: 'app',
     component: TabsPage,
     children: [
       {
@@ -23,17 +23,17 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/timeshop/shop',
+        redirectTo: '/app/shop',
         pathMatch: 'full',
       },
     ],
   },
   {
     path: '',
-    redirectTo: '/timeshop/shop',
+    redirectTo: '/app/shop',
     pathMatch: 'full',
   },
-  { path: '**', redirectTo: '/timeshop/shop' },
+  { path: '**', redirectTo: '/app/shop' },
 ];
 
 @NgModule({

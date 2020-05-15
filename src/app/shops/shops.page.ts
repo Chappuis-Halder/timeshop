@@ -76,7 +76,7 @@ export class ShopsPage {
       duration: 0.4,
     });
     setTimeout(() => {
-      this.router.navigate(['/timeshop/shop/reserve', shop.id]);
+      this.router.navigate(['/app/shop/reserve', shop.id]);
       loader.dismiss();
     }, 400);
   }
