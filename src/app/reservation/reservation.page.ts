@@ -80,7 +80,7 @@ export class ReservationPage implements OnInit, OnDestroy {
       if (!shop) {
         const toast = await this.toastController.create({ message: 'Shop Not Found', duration: 4000 });
         await toast.present();
-        this.router.navigate(['/timeshop/shop']);
+        this.router.navigate(['/app/shop']);
       }
       this.shop = shop;
       this.events = this.events.concat(this.shop.reservations);
