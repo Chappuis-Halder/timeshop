@@ -19,8 +19,8 @@ export class ReservationDetailsComponent implements OnInit {
   public reservationForm: FormGroup;
 
   constructor(
+    formBuilder: FormBuilder,
     private readonly modalController: ModalController,
-    private readonly formBuilder: FormBuilder,
     private readonly loadingController: LoadingController
   ) {
     this.reservationForm = formBuilder.group({
@@ -47,7 +47,7 @@ export class ReservationDetailsComponent implements OnInit {
       });
       await loader.present();
       const event: CalendarEvent = {
-        title: 'Your reservation',
+        title: `Your reservation - ${this.reservationForm.get('name').value}`,
         start: this.selectedSlotStart,
         end: this.selectedSlotEnd,
         color: EVENT_COLORS.success,

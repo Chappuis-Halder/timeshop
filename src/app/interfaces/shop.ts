@@ -7,4 +7,5 @@ export interface Shop {
   address: string;
   latitude: number;
   longitude: number;
+  peakHours: string;
 }

@@ -1,13 +1,24 @@
 <div class="shop-select">
-  <ion-select
-    [interfaceOptions]="{
-      header: 'Select Shop'
-    }"
-    placeholder="Explore shops"
-    (ionChange)="onSelectedShop($event)"
+  <ng-select
+    bindValue="id"
+    bindLabel="name"
+    [items]="shops"
+    placeholder="Explore Shops"
+    notFoundText="Shop Not Found"
+    [clearSearchOnAdd]="true"
+    (change)="onSelectedShop($event)"
   >
-    <ion-select-option *ngFor="let shop of shops" value="{{ shop.id }}">{{ shop.name }}</ion-select-option>
-  </ion-select>
+    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+      <ion-item class="shop-select-item" detail>
+        <ion-avatar slot="start">
+          <img src="https://source.unsplash.com/64x64/?grocery" />
+        </ion-avatar>
+        <ion-label
+          >{{ item.name }}<br /><ion-note>{{ item.address }}</ion-note></ion-label
+        >
+      </ion-item>
+    </ng-template>
+  </ng-select>
 </div>
 
 <ion-content>

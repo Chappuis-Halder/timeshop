@@ -65,6 +65,7 @@ export class ReservationPage implements OnInit, OnDestroy {
     modal.onDidDismiss().then((result) => {
       if (result.data) {
         this.events.push(result.data);
+        this.shopService.addEventToLocation(this.shop.id, result.data);
         this.refreshCalendar.next();
         this.cdr.detectChanges();
       }

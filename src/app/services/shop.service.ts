@@ -9,7 +9,7 @@ import { Shop } from '../interfaces/shop';
   providedIn: 'root',
 })
 export class ShopService {
-  private readonly shops: Array<Shop>;
+  private shops: Array<Shop>;
 
   public getShop(id: number): Shop {
     return this.shops.filter((shop) => shop.id === id)[0];
@@ -23,6 +23,10 @@ export class ShopService {
     return this.shops.filter((shop) => shop.latitude === latitude && shop.longitude === longitude)[0];
   }
 
+  public addEventToLocation(id: number, event: CalendarEvent) {
+    this.getShop(id).reservations.push(event);
+  }
+
   constructor() {
     this.shops = [
       {
@@ -32,6 +36,7 @@ export class ShopService {
         reservations: this.generateReservations(),
         latitude: 47.6,
         longitude: 19,
+        peakHours: '10AM - 14PM',
       },
       {
         id: 2,
@@ -40,6 +45,16 @@ export class ShopService {
         reservations: this.generateReservations(),
         latitude: 47.7,
         longitude: 19,
+        peakHours: '12AM - 13PM',
+      },
+      {
+        id: 3,
+        name: 'Shop 3',
+        address: '4316  Mount Street, Saginaw, Michigan',
+        reservations: this.generateReservations(),
+        latitude: 47.5133537,
+        longitude: 19.046117,
+        peakHours: '16PM - 17PM',
       },
     ];
   }

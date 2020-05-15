@@ -27,6 +27,7 @@
 
 // 3rd party imports
 @import '../node_modules/angular-calendar/css/angular-calendar.css';
+@import '../node_modules/@ng-select/ng-select/themes/default.theme.css';
 
 .white-event-text .cal-event-title {
   color: #fafafa !important;
@@ -34,4 +35,18 @@
 
 .grey-event-text .cal-event-title {
   color: #424242 !important;
+}
+
+.ng-placeholder {
+  width: 100%;
+  text-align: center;
+  color: #424242 !important;
+}
+
+.ng-select.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
+  border-color: var(--ion-color-primary);
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  padding: 0 !important;
 }

@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
-import { LeafletMouseEvent, Map, marker, tileLayer } from 'leaflet';
+import * as L from 'leaflet';
 
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+
+import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Shop } from '../interfaces/shop';
 import { ShopService } from '../services/shop.service';
@@ -14,10 +16,17 @@ import { environment } from 'src/environments/environment';
 })
 export class ShopsPage {
   @ViewChild('leafletMap', { static: true }) leafletMap: ElementRef;
-  private readonly shops: Array<Shop>;
-  private map: Map;
+  public selectedShop: Shop;
 
-  constructor(private readonly cdr: ChangeDetectorRef, private readonly shopService: ShopService, private readonly router: Router) {
+  public shops: Array<Shop>;
+  private map: L.Map;
+
+  constructor(
+    private readonly cdr: ChangeDetectorRef,
+    private readonly shopService: ShopService,
+    private readonly router: Router,
+    private readonly loadingController: LoadingController
+  ) {
     this.shops = this.shopService.getShops();
   }
 
@@ -27,35 +36,53 @@ export class ShopsPage {
 
   /** Render Leaflet map */
   renderMap() {
-    this.map = new Map(this.leafletMap.nativeElement, { attributionControl: false, zoomControl: false });
+    this.map = new L.Map(this.leafletMap.nativeElement, { attributionControl: false, zoomControl: false });
     this.map.setView([47.4979, 19.0402], 10);
-    const tile = tileLayer(environment.mapTileUrl, {
+    const tile = L.tileLayer(environment.mapTileUrl, {
       minZoom: 10,
       minNativeZoom: 10,
       updateWhenZooming: true,
     });
+    const markerIcon = new L.Icon({
+      iconUrl: 'assets/marker.svg',
+      iconSize: [48, 48],
+      iconAnchor: [24, 36],
+      popupAnchor: [0, 0],
+      tooltipAnchor: [15, -16],
+    });
     tile.addTo(this.map);
     this.shops.forEach((shop) => {
-      const m = marker([shop.latitude, shop.longitude]);
-      m.on('click', (event: LeafletMouseEvent) => {
+      const marker = L.marker([shop.latitude, shop.longitude], { icon: markerIcon });
+      marker.on('click', (event: L.LeafletMouseEvent) => {
         this.onMarkerClick(event);
       });
-      m.bindTooltip(shop.name, { permanent: true });
-      m.addTo(this.map);
+      marker.bindTooltip(`${shop.name}<br>${shop.address}<br>Peak Hours: ${shop.peakHours}`, { permanent: true });
+      marker.addTo(this.map);
     });
   }
 
-  onMarkerClick($event: LeafletMouseEvent) {
+  onMarkerClick($event: L.LeafletMouseEvent) {
     const shop = this.shopService.findShopByLocation($event.latlng.lat, $event.latlng.lng);
     if (shop) {
-      this.router.navigate(['/timeshop/shop/reserve', shop.id]);
-      this.cdr.detectChanges();
+      this.reserveShop(shop);
     }
   }
 
-  onSelectedShop($event) {
-    this.router.navigate(['/timeshop/shop/reserve', +$event.detail.value]);
-    this.cdr.detectChanges();
+  async reserveShop(shop: Shop) {
+    const loader = await this.loadingController.create({ message: 'Loading Reservations' });
+    await loader.present();
+    this.map.setView({ lat: shop.latitude, lng: shop.longitude }, this.map.getZoom(), {
+      animate: true,
+      duration: 0.4,
+    });
+    setTimeout(() => {
+      this.router.navigate(['/timeshop/shop/reserve', shop.id]);
+      loader.dismiss();
+    }, 400);
+  }
+
+  onSelectedShop($event: Shop) {
+    this.reserveShop($event);
   }
 
   /** Remove map when we have multiple map object */
