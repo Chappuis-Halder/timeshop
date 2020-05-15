@@ -1,5 +1,7 @@
 # :department_store: TimeShop
 
+[LIVE DEMO](https://chappuis-halder.github.io/timeshop/app/shop)
+
 ## :computer: System Requirements
 
 - [NodeJS version 12+](https://nodejs.org/)
