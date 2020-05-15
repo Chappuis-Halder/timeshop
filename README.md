@@ -33,3 +33,24 @@ Run prettier either by installing the Prettier plugin for your IDE or execute th
 cd /path/to/project/directory
 npm run prettier
 ```
+
+## :fire: Publishing to GitHub Pages
+
+- Install angular-cli-ghpages globally
+
+```
+npm install -g angular-cli-ghpages
+```
+
+- Build the application using the repository name as `base-href` option.
+- `base-href` option should be in the format `/repo-name/`
+- The `--repo` parameter should refer to the `HTTPS` url of the git repository
+- Example of build
+
+```
+cd /path/to/project/directory
+ng build --prod --base-href /timeshop/
+ngh --message="Release v. 1.0.0" --repo=https://github.com/Chappuis-Halder/timeshop.git
+```
+
+- This will push the current build to the branch named `gh-pages`
